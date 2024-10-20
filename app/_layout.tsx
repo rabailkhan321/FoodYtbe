@@ -52,7 +52,9 @@ function RootLayoutNav() {
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
       <Stack>
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
+        {/* <Stack.Screen name="modal" options={{ presentation: 'modal' }} /> */}
+        <Stack.Screen name="cart" options={{ presentation: 'modal', animation: 'slide_from_bottom'   }} />
+{/* this animation part i added from chat gpt because manually my screen was not coming from bottom(unlike video part because according to chat gpt it happens only in ios and for android we have to give commands ) */}
       </Stack>
     </ThemeProvider>
   );

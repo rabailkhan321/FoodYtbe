@@ -12,7 +12,7 @@ function TabBarIcon(props: {
   name: React.ComponentProps<typeof FontAwesome>['name'];
   color: string;
 }) {
-  return <FontAwesome size={28} style={{ marginBottom: -3 }} {...props} />;
+  return <FontAwesome size={20} style={{ marginBottom: -3 }} {...props} />;
 }
 
 export default function TabLayout() {
@@ -26,32 +26,41 @@ export default function TabLayout() {
         // to prevent a hydration error in React Navigation v6.
         headerShown: useClientOnlyValue(false, true),
       }}>
-      <Tabs.Screen
+              <Tabs.Screen //chat gpt to hide index from below
         name="index"
         options={{
-          title: 'Tab One',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
-          headerRight: () => (
-            <Link href="/modal" asChild>
-              <Pressable>
-                {({ pressed }) => (
-                  <FontAwesome
-                    name="info-circle"
-                    size={25}
-                    color={Colors[colorScheme ?? 'light'].text}
-                    style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
-                  />
-                )}
-              </Pressable>
-            </Link>
-          ),
+          href: null, // Hides the index tab
+        }}
+      />
+
+      <Tabs.Screen
+        name="menu" //change from index to menu
+        options={{
+          title: 'menu',
+          headerShown:false, //if we want to remove header menu and index from the top
+          tabBarIcon: ({ color }) => <TabBarIcon name="cutlery" color={color} />,
+          //we dont need it anymore so we can remove it from here tgh
+          // headerRight: () => ( 
+          //   <Link href="/modal" asChild>
+          //     <Pressable>
+          //       {({ pressed }) => (
+          //         <FontAwesome
+          //           name="info-circle"
+          //           size={25}
+          //           color={Colors[colorScheme ?? 'light'].text}
+          //           style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
+          //         />
+          //       )}
+          //     </Pressable>
+          //   </Link>
+          // ),
         }}
       />
       <Tabs.Screen
         name="two"
         options={{
-          title: 'Tab Two',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          title: 'orders',
+          tabBarIcon: ({ color }) => <TabBarIcon name="list" color={color} />,
         }}
       />
     </Tabs>
