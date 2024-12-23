@@ -57,7 +57,7 @@ const productDetailScreen = () => {
           </Pressable>
         ))}
       </View>
-      <Text style={styles.price}> price: ${product.price}</Text>
+      <Text style={styles.price}> price: Rs {product.price}</Text>
 
 
       <Button text='add to cart' onPress={setCart}></Button>

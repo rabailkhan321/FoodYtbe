@@ -30,7 +30,7 @@ const ProductListItems=({product}: ProductListItemProps)=>{
   <Pressable style={styles.container}>
   <Image source={{uri: product.image || defaultImage }} style={styles.image} resizeMode='contain' />
   <Text style={styles.title}> {product.name}</Text>
-  <Text style={styles.price}>${product.price}</Text>
+  <Text style={styles.price}>Rs {product.price}</Text>
   </Pressable>
   </Link>
 
@@ -42,32 +42,35 @@ const ProductListItems=({product}: ProductListItemProps)=>{
 }
 export default ProductListItems
 const styles = StyleSheet.create({
-    container: {
-   
-      backgroundColor:'white',
-      borderRadius: 20,
-      padding:10,
-      flex:1,
-      maxWidth:'50%',
-      margin:5 //there are other ways of doing that as well chapter flatlist implemetnation 51:10
-  
-    },
-    title:{
-      fontSize:18,
-      fontWeight:700,
-      marginVertical: 10 //i dont know about  it 
-     
-     },
-  
-     price:{
-      color:'blue',
-      fontWeight:'bold'
-     },
-    image:{
-      // height: 100,
-      // width: 100
-      width: '100%',
-      aspectRatio:1
-      }
-  });
+  container: {
+    backgroundColor: '#f9f9f9',
+    borderRadius: 15,
+    padding: 15,
+    flex: 1,
+    maxWidth: '48%',
+    margin: '1%',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 5,
+    elevation: 3,
+  },
+  title: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    marginVertical: 8,
+    color: '#333',
+  },
+  price: {
+    color: '#4caf50',
+    fontWeight: '600',
+    fontSize: 14,
+  },
+  image: {
+    width: '100%',
+    aspectRatio: 1,
+    borderRadius: 10,
+    marginBottom: 10,
+  },
+});
   
