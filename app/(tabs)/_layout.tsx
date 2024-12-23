@@ -36,9 +36,9 @@ export default function TabLayout() {
       <Tabs.Screen
         name="menu" //change from index to menu
         options={{
-          title: 'menu',
+          title: 'laptops',
           headerShown:false, //if we want to remove header menu and index from the top
-          tabBarIcon: ({ color }) => <TabBarIcon name="cutlery" color={color} />,
+          tabBarIcon: ({ color }) => <TabBarIcon name="laptop" color={color} />,
           //we dont need it anymore so we can remove it from here tgh
           // headerRight: () => ( 
           //   <Link href="/modal" asChild>

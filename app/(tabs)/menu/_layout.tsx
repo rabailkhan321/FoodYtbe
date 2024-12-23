@@ -20,7 +20,7 @@ export default function MenuStck(){
             </Link>
           ),
     }}>
-    <Stack.Screen name='index' options={{title:'menu'}}/>
+    <Stack.Screen name='index' options={{title:'laptops'}}/>
     </Stack>
     );
 }
