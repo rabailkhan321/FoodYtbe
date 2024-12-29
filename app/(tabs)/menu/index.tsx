@@ -309,9 +309,10 @@
 //   },
 // });
 
+
 //with reset
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, FlatList, Button } from 'react-native';
+import { View, Text, StyleSheet, FlatList, Button, TextInput, TouchableOpacity } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import IntroScreen1 from '@/screens/IntroScreen1';
 import IntroScreen2 from '@/screens/IntroScreen2';
@@ -328,9 +329,12 @@ type Product = {
 
 export default function App() {
   const [products, setProducts] = useState<Product[]>([]);
+  const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [hasSeenIntro, setHasSeenIntro] = useState<boolean | null>(null);
   const [currentIntroScreen, setCurrentIntroScreen] = useState(0);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [sortOrder, setSortOrder] = useState<'lowToHigh' | 'highToLow' | null>(null);
 
   useEffect(() => {
     const checkIntroStatus = async () => {
@@ -348,12 +352,27 @@ export default function App() {
         console.error('Error fetching products:', error.message);
       } else {
         setProducts(data as Product[]);
+        setFilteredProducts(data as Product[]);
       }
       setLoading(false);
     };
 
     if (hasSeenIntro === true) fetchProducts();
   }, [hasSeenIntro]);
+
+  useEffect(() => {
+    let filtered = products.filter((product) =>
+      product.name.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+
+    if (sortOrder === 'lowToHigh') {
+      filtered = filtered.sort((a, b) => a.price - b.price);
+    } else if (sortOrder === 'highToLow') {
+      filtered = filtered.sort((a, b) => b.price - a.price);
+    }
+
+    setFilteredProducts(filtered);
+  }, [searchQuery, sortOrder, products]);
 
   const handleIntroNext = () => {
     setCurrentIntroScreen(currentIntroScreen + 1);
@@ -384,7 +403,6 @@ export default function App() {
     } else if (currentIntroScreen === 1) {
       return <IntroScreen2 onNext={handleIntroNext} />;
     } else {
-      // Pass onNext to IntroScreen3 to handle the "done" action
       return <IntroScreen3 onNext={handleIntroDone} />;
     }
   }
@@ -399,17 +417,34 @@ export default function App() {
 
   return (
     <View style={styles.container}>
+      <TextInput
+        style={styles.searchBar}
+        placeholder="Search products..."
+        value={searchQuery}
+        onChangeText={(text) => setSearchQuery(text)}
+      />
+      <View style={styles.filterContainer}>
+        <TouchableOpacity
+          style={styles.filterButton}
+          onPress={() => setSortOrder('lowToHigh')}
+        >
+          <Text style={styles.filterButtonText}>Price: Low to High</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.filterButton}
+          onPress={() => setSortOrder('highToLow')}
+        >
+          <Text style={styles.filterButtonText}>Price: High to Low</Text>
+        </TouchableOpacity>
+      </View>
       <FlatList
-        data={products}
+        data={filteredProducts}
         renderItem={({ item }) => <ProductListItems product={item} />}
         numColumns={2}
         keyExtractor={(item) => item.id.toString()}
         contentContainerStyle={styles.productContainer}
       />
-      <Button
-        title="Show Intro Screens Again"
-        onPress={resetIntroScreens}
-      />
+      <Button title="Home Page"  color="#FFC0CB" onPress={resetIntroScreens} />
     </View>
   );
 }
@@ -420,10 +455,33 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     paddingVertical: 20,
   },
+  searchBar: {
+    height: 40,
+    borderColor: '#ccc',
+    borderWidth: 1,
+    borderRadius: 8,
+    paddingHorizontal: 10,
+    marginBottom: 20,
+  },
   loadingContainer: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  filterContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    marginBottom: 20,
+  },
+  filterButton: {
+    backgroundColor: '#FFC0CB',
+    borderRadius: 8,
+    paddingVertical: 10,
+    paddingHorizontal: 15,
+  },
+  filterButtonText: {
+    color: '#fff',
+    fontSize: 16,
   },
   productContainer: {
     paddingBottom: 20,

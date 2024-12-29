@@ -19,7 +19,7 @@ export type Product = {
   price: number;
 };
 
-export type PizzaSize = 'S' | 'M' | 'L' | 'XL';
+export type PizzaSize = '64Gb' | '1Tb' | '2Tb' | '4Tb';
 
 export type CartItem = {
   id: string;

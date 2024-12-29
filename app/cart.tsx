@@ -1,12 +1,14 @@
-import { View, Text } from 'react-native'
+import { View, Text,FlatList } from 'react-native'
 import React from 'react'
 import { useContext } from 'react'
-import { CartContext } from '@/provider/CartProvider'
+import {useCart} from '@/provider/CartProvider'
+import CartListItem from '@/components/CartListItem'
 const cartScreen = () => {
-  const {items} = useContext(CartContext)
+  const {items} = useCart()
   return (
     <View>
-      <Text>cart items legth:{items.length}</Text>
+      <FlatList data={items} renderItem={({item}) => <CartListItem cartItem={item}/>}
+      contentContainerStyle={{padding:10, gap: 10}} />
     </View>
   )
 }
